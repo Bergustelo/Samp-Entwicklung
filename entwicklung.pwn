@@ -24,6 +24,7 @@ forward OnUserLogin(playerid);
 #define blau 0x0000FFFF
 #define braun 0x7E3918FF
 #define gelb 0xFFDD00FF
+#define weiﬂ 0x00000000
 //
 
 
@@ -94,6 +95,7 @@ public OnPlayerConnect(playerid)
 	PlayerInfo[playerid][frank] = 0;
 	PlayerInfo[playerid][spawn] = 0;
 	GetPlayerName(playerid,PlayerInfo[playerid][pname],MAX_PLAYER_NAME);
+	SetPlayerColor(playerid,weiﬂ);
 	return 1;
 }
 
