@@ -35,7 +35,7 @@ forward OnUserLogin(playerid);
 
 enum pDataEnum
 {
-	spielerid,
+	p_id,
 	bool:eingeloggt,
 	pname[MAX_PLAYER_NAME],
 	level,
@@ -43,8 +43,7 @@ enum pDataEnum
 	pmoney,
 	fraktion,
 	frank,
-	spawn,
-	pdeaths
+	spawn
 }
 new PlayerInfo[MAX_PLAYER_NAME][pDataEnum];
 //
@@ -86,7 +85,7 @@ public OnPlayerRequestClass(playerid, classid)
 
 public OnPlayerConnect(playerid)
 {
-	PlayerInfo[playerid][spielerid] =0;
+	PlayerInfo[playerid][p_id] =0;
 	PlayerInfo[playerid][eingeloggt] = false;
 	PlayerInfo[playerid][level] = 0;
 	PlayerInfo[playerid][admin] = 0;
@@ -183,7 +182,12 @@ public OnPlayerRequestSpawn(playerid)
 {
 	return 1;
 }
-
+ocmd:autosetzen(playerid,params)
+{
+	CreateVehicle(560, 2036.4069, 1348.0876, 10.8343, 0.0000, -1, -1, 100);
+	SendClientMessage(playerid,blau,"Auto wurde gesetzt");
+	return 1;
+}
 public OnObjectMoved(objectid)
 {
 	return 1;
@@ -276,7 +280,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		
 		//wenn alles passt wird spieler angelegt
 		new query[256];
-		mysql_format(handle,query,sizeof(query), "INSERT INTO account(name,passwort)VALUES('%e',MD5(#%e))",PlayerInfo[playerid][pname],inputtext);
+		mysql_format(handle,query,sizeof(query), "INSERT INTO account(name,passwort)VALUES('%e',MD5('%e'))",PlayerInfo[playerid][pname],inputtext);
 		
 		//Das Query wird abgesendet und die playerid an OnUserRegister übergeben
 		mysql_pquery(handle,query,"OnUserRegister","d",playerid);
@@ -350,7 +354,7 @@ public OnUserCheck(playerid)
 }
 public OnUserRegister(playerid)
 {
-	PlayerInfo[playerid][spielerid] = cache_insert_id();
+	PlayerInfo[playerid][p_id] = cache_insert_id();
 	SendClientMessage(playerid,green,"[KONTO]Registration erfolgreich");
 	return 1;
 }
@@ -365,16 +369,17 @@ public OnUserLogin(playerid)
 	}
 	else
 	{
-			cache_get_value_name_int(0,"id",PlayerInfo[playerid][spielerid]);
+			cache_get_value_name_int(0,"id",PlayerInfo[playerid][p_id]);
 			cache_get_value_name_int(0,"level",PlayerInfo[playerid][level]);
+			SetPlayerScore(playerid,PlayerInfo[playerid][level]);
 			cache_get_value_name_int(0,"admin",PlayerInfo[playerid][admin]);
 			cache_get_value_name_int(0,"money",PlayerInfo[playerid][pmoney]);
+			GivePlayerMoney(playerid,PlayerInfo[playerid][pmoney]);
 			cache_get_value_name_int(0,"fraktion",PlayerInfo[playerid][fraktion]);
 			cache_get_value_name_int(0,"frank",PlayerInfo[playerid][frank]);
 			cache_get_value_name_int(0,"spawn",PlayerInfo[playerid][spawn]);
 			PlayerInfo[playerid][eingeloggt] = true;
 			SendClientMessage(playerid,green,"[KONTO]Eingeloggt.");
-			GivePlayerMoney(playerid,PlayerInfo[playerid][pmoney]);
 	}
 	return 1;
 }
