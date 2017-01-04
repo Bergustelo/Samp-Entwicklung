@@ -24,7 +24,7 @@ forward OnUserLogin(playerid);
 #define blau 0x0000FFFF
 #define braun 0x7E3918FF
 #define gelb 0xFFDD00FF
-#define weiﬂ 0x00000000
+#define weiﬂ 0xFFFFFFFF
 //
 
 
@@ -88,7 +88,7 @@ public OnPlayerConnect(playerid)
 {
 	PlayerInfo[playerid][p_id] =0;
 	PlayerInfo[playerid][eingeloggt] = false;
-	PlayerInfo[playerid][level] = 0;
+	PlayerInfo[playerid][level] = 1;
 	PlayerInfo[playerid][admin] = 0;
 	PlayerInfo[playerid][pmoney] = 0;
 	PlayerInfo[playerid][fraktion] = 0;
@@ -96,6 +96,7 @@ public OnPlayerConnect(playerid)
 	PlayerInfo[playerid][spawn] = 0;
 	GetPlayerName(playerid,PlayerInfo[playerid][pname],MAX_PLAYER_NAME);
 	SetPlayerColor(playerid,weiﬂ);
+	SetPlayerScore(playerid,PlayerInfo[playerid][level]);
 	return 1;
 }
 
@@ -278,7 +279,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		if(!response)return Kick(playerid);
 		
 		//Wenn der Spieler kein oder ein zu kurzes, Passwort eingegeben hat
-		if(strlen(inputtext) < 5)return ShowPlayerDialog(playerid,DIALOG_REGISTER,DIALOG_STYLE_PASSWORD,"Registration","Bitte registriere dich; \n{0x008E00FF}Mindestens 5 Zeichen!","Registrieren","Abbrechen");
+		if(strlen(inputtext) < 5)return ShowPlayerDialog(playerid,DIALOG_REGISTER,DIALOG_STYLE_PASSWORD,"Registration","Bitte registriere dich; \n{FF0000}Mindestens 5 Zeichen!","Registrieren","Abbrechen");
 		
 		//wenn alles passt wird spieler angelegt
 		new query[256];
@@ -294,7 +295,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		if(!response)return Kick(playerid);
 		
 		//Wenn der spieler kein, oder ein zu kurzes Passwort eingegeben hat
-		if(strlen(inputtext) < 5)return ShowPlayerDialog(playerid,DIALOG_LOGIN,DIALOG_STYLE_PASSWORD,"Anmeldung","Bitte logge dich ein:\n{0x008E00FF}Mindestens 5 Zeichen!","Anmelden","Abbrechen");
+		if(strlen(inputtext) < 5)return ShowPlayerDialog(playerid,DIALOG_LOGIN,DIALOG_STYLE_PASSWORD,"Anmeldung","Bitte logge dich ein:\n{FF0000}Mindestens 5 Zeichen!","Anmelden","Abbrechen");
 		
 		//Wenn alles Passt wird die Datenbank ausgelsen
 		new query[256];
@@ -367,7 +368,7 @@ public OnUserLogin(playerid)
 	cache_get_row_count(rows);
 	if(rows == 0)
 	{
-		ShowPlayerDialog(playerid,DIALOG_LOGIN,DIALOG_STYLE_PASSWORD,"Anmeldung","Bitte logge dich ein:\n{0x008E00FF}Falsches Passwort","Einloggen","Abbrechen");		
+		ShowPlayerDialog(playerid,DIALOG_LOGIN,DIALOG_STYLE_PASSWORD,"Anmeldung","Bitte logge dich ein:\n{FF0000}Falsches Passwort","Einloggen","Abbrechen");		
 	}
 	else
 	{
