@@ -389,10 +389,9 @@ public OnUserLogin(playerid)
 stock SaveUserStats(playerid)
 {
 	if(!PlayerInfo[playerid][eingeloggt])return 1;
-	
+	PlayerInfo[playerid][pmoney] = GetPlayerMoney(playerid);
 	new query[256];
 	mysql_format(handle,query,sizeof(query),"UPADTE account SET level = '%d',admin = '%d',money = '%d',fraktion = '%d',frank = '%d',spawn = '%d'WHERE id = '%d'",PlayerInfo[playerid][level],PlayerInfo[playerid][admin],PlayerInfo[playerid][pmoney],PlayerInfo[playerid][fraktion],PlayerInfo[playerid][frank],PlayerInfo[playerid][spawn]);
-	
 	mysql_pquery(handle,query);
 	return 1;
 }
