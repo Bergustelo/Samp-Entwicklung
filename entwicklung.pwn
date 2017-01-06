@@ -211,7 +211,7 @@ public OnPlayerRequestSpawn(playerid)
 }
 ocmd:autosetzen(playerid,params)
 {
-	CreateVehicle(60,1337.9443,-1344.3656,13.1676,179.5755, -1, -1, 100);
+	CreateVehicle(560, 1340.1954, -1355.3334, 13.6905, 180.0000, -1, -1, 100);
 	SendClientMessage(playerid,blau,"Auto wurde gesetzt");
 	return 1;
 }
