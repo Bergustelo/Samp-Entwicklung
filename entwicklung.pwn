@@ -58,7 +58,7 @@ public OnGameModeInit()
 {
 	// Don't use these lines if it's a filterscript
 	SetGameModeText("Kraft und Ehre");
-	AddPlayerClass(0, 1958.3783, 1343.1572, 15.3746, 269.1425, 0, 0, 0, 0, 0, 0);
+	AddPlayerClass(115,1335.6752,-1335.6584,13.5391,183.0858,0,0,0,0,0,0); 
 	mysql_setupconnection();
 	return 1;
 }
@@ -211,7 +211,7 @@ public OnPlayerRequestSpawn(playerid)
 }
 ocmd:autosetzen(playerid,params)
 {
-	CreateVehicle(560, 2036.4069, 1348.0876, 10.8343, 0.0000, -1, -1, 100);
+	CreateVehicle(60,1337.9443,-1344.3656,13.1676,179.5755, -1, -1, 100);
 	SendClientMessage(playerid,blau,"Auto wurde gesetzt");
 	return 1;
 }
