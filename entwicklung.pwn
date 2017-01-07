@@ -1,5 +1,6 @@
 #include <a_samp>
 #include <a_mysql>
+#include <sscanf2.inc>
 #include <ocmd>
 
 
@@ -16,7 +17,6 @@ forward OnUserLogin(playerid);
 
 //
 
-
 //Farben
 
 #define green 0x008E00FF
@@ -31,9 +31,9 @@ forward OnUserLogin(playerid);
 //Diagloge definierungsbereich
 #define DIALOG_REGISTER 1
 #define DIALOG_LOGIN 2
+#define DIALOG_Motorsystem 3
 //
 //Spieler Information
-
 enum pDataEnum
 {
 	p_id,
@@ -48,6 +48,17 @@ enum pDataEnum
 }
 new PlayerInfo[MAX_PLAYER_NAME][pDataEnum];
 //
+enum fahrzeugEnum
+{
+	faid,
+	besitzer[MAX_PLAYER_NAME],
+	Float:c_x,
+	Float:c_y,
+	Float:c_z,
+	Float:c_r
+}
+new cInfo[50][fahrzeugEnum];
+
 main()
 {
 	print("\n----------------------------------");
@@ -58,7 +69,15 @@ public OnGameModeInit()
 {
 	// Don't use these lines if it's a filterscript
 	SetGameModeText("Kraft und Ehre");
-	AddPlayerClass(115,1335.6752,-1335.6584,13.5391,183.0858,0,0,0,0,0,0); 
+	AddPlayerClass(115,1159.6151,-1381.1644,13.6522,357.9040,0,0,0,0,0,0);
+	AddPlayerClass(21,1159.6151,-1381.1644,13.6522,357.9040,0,0,0,0,0,0);
+	AddPlayerClass(29,1159.6151,-1381.1644,13.6522,357.9040,0,0,0,0,0,0);
+	AddPlayerClass(30,1159.6151,-1381.1644,13.6522,357.9040,0,0,0,0,0,0);
+	AddPlayerClass(48,1159.6151,-1381.1644,13.6522,357.9040,0,0,0,0,0,0);
+	SendRconCommand("mapname <Las Santos>");
+	DisableInteriorEnterExits();
+	EnableStuntBonusForAll(0);
+	ManualVehicleEngineAndLights();	
 	mysql_setupconnection();
 	return 1;
 }
@@ -71,6 +90,12 @@ public OnGameModeExit()
 
 public OnPlayerRequestClass(playerid, classid)
 {
+	//AddPlayerClass(115,1158.9497,-1372.6090,13.6522,180.2423,0,0,0,0,0,0); // facingangel
+	SetPlayerPos(playerid,1159.6151,-1381.1644,13.6522);
+	SetPlayerCameraPos(playerid,1159.3171,-1377.4707,13.6522);
+	SetPlayerCameraLookAt(playerid,1159.6151,-1381.1644,13.6522);
+	SetPlayerFacingAngle(playerid,357.9040);
+	
 	//Wenn der Spieler die Class-Selection betritt prüfe ob er bereits eingeloggt ist
 	if(!PlayerInfo[playerid][eingeloggt])
 	{
@@ -144,7 +169,25 @@ public OnVehicleSpawn(vehicleid)
 {
 	return 1;
 }
-
+PlayerCar(playerid,modelid,Float:x,Float:y,Float:z,Float:r)
+{
+	for(new i=0; i<sizeof(cInfo); i++)
+	{
+		if(cInfo[i][faid]!=0)continue;
+		
+		GetPlayerName(playerid,cInfo[i][besitzer],MAX_PLAYER_NAME);
+		cInfo[i][c_x] =x;
+		cInfo[i][c_y] =y;
+		cInfo[i][c_z] =z;
+		cInfo[i][c_r] =r;
+		cInfo[i][faid] = CreateVehicle(modelid,x,y,z,r,-1,-1,-1);
+		new string[128];
+		format(string,sizeof(string),"Das Fahrzeug cInfo[%i] wurde erstellt");
+		SendClientMessageToAll(rot,string);
+		return 1;
+	}
+	return 1;
+}
 public OnVehicleDeath(vehicleid, killerid)
 {
 	return 1;
@@ -209,10 +252,36 @@ public OnPlayerRequestSpawn(playerid)
 {
 	return 1;
 }
-ocmd:autosetzen(playerid,params)
+isAdmin(playerid,a_level)
 {
-	CreateVehicle(560, 1340.1954, -1355.3334, 13.6905, 180.0000, -1, -1, 100);
-	SendClientMessage(playerid,blau,"Auto wurde gesetzt");
+	if(PlayerInfo[playerid][admin]>=a_level)return 1;
+	return 0;
+}
+// Befehle
+ocmd:deltecar(playerid,params[])
+{
+	if(!isAdmin(playerid,2))
+	if(!IsPlayerInAnyVehicle(playerid))return SendClientMessage(playerid,green,"Du bist in kein Fahrzeug");
+	DestroyVehicle(GetPlayerVehicleID(playerid));
+	return 1;
+}
+ocmd:createcar(playerid,params[])
+{
+	new mID,pID;
+	if(!isAdmin(playerid,2))
+	if(sscanf(params,"i",mID))return SendClientMessage(playerid,rot,"INFO: /createcar[model]");
+	if(mID<400 ||mID>611)return SendClientMessage(playerid,rot,"Ungültiges Model");
+	new Float:xc,Float:yc,Float:zc,Float:rc;
+	GetPlayerPos(pID,xc,yc,zc);
+	GetPlayerFacingAngle(pID,rc);
+	PlayerCar(pID,mID,xc,yc,zc,rc);
+	return 1;
+}
+ocmd:autosystem(playerid,params)
+{
+	if(GetPlayerState(playerid)!=PLAYER_STATE_DRIVER) return SendClientMessage(playerid, rot, "Das kann nur der Fahrer!");
+	ShowPlayerDialog(playerid,DIALOG_Motorsystem,DIALOG_STYLE_TABLIST,     "Autobordcomputer","Motor\tstarten\tauschalten\nlicht\tanschalten\tausschalten\ntüren\töffnen\tschliessen\nAutoparken\tparken","benutzen","abbrechen");
+	SendClientMessage(playerid,green,"Sie haben den Bordcomputer Ihres Fahrzeuges aufgerufen!");
 	return 1;
 }
 public OnObjectMoved(objectid)
@@ -327,7 +396,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		mysql_pquery(handle,query,"OnUserLogin","d",playerid);
 		return 1;
 	}
-	return 0;
+	return 1;
 }
 
 public OnPlayerClickPlayer(playerid, clickedplayerid, source)
