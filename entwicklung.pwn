@@ -118,7 +118,7 @@ enum buildingsEnum
 new bInfo[][buildingsEnum]=
 {
 	{1310.1149,-1366.8008,13.5066,246.0798,107.5067,1003.2188,10},
-	{1555.3151,-1675.8002,16.1953,21040.4108,1278.5807,798.7730}
+	{1555.3151,-1675.8002,16.1953,1040.3652,1279.5161,798.7730,0}
 };
 
 enum muellEnum
@@ -172,7 +172,7 @@ new ahCars[][autohauscarEnum] ={
 new ahInfo[][autohausEnum]={
 {2481.2991,1671.2750,16.3001,95.0682}
 };
-
+new pdtuer;
 
 
 main()
@@ -1221,7 +1221,7 @@ public OnGameModeInit()
     CreateDynamicObject(1569, 1050.00244, 1236.30676, 797.77301,   0.00000, 0.00000, 90.00000);//door
     CreateDynamicObject(1569, 1046.16833, 1229.59045, 799.34991,   0.00000, 0.00000, 180.00000);//door
     CreateDynamicObject(1569, 1050.02161, 1245.85291, 797.77301,   0.00000, 0.00000, 90.00000);//door
-    CreateDynamicObject(1569, 1047.95386, 1251.51318, 797.77301,   0.00000, 0.00000, 0.00000);//door
+    pdtuer = CreateDynamicObject(1569, 1047.95386, 1251.51318, 797.77301,   0.00000, 0.00000, 0.00000);//door
     CreateDynamicObject(1569, 1030.62195, 1251.51318, 797.77301,   0.00000, 0.00000, 0.00000);//door
     CreateDynamicObject(1569, 1037.58594, 1229.89832, 799.34991,   0.00000, 0.00000, 0.00000);//door
     CreateDynamicObject(1495, 1036.37781, 1219.99023, 791.83832,   0.00000, 0.00000, 90.00000);//door
@@ -1494,6 +1494,20 @@ isPlayerInFrakt(playerid,f_id){
 	return 0;
 }
 // Befehle
+ocmd:ptuerzu(playerid,params[])
+{
+	if(!isPlayerInFrakt(playerid,1))return SendClientMessage(playerid,rot,"Du bist nicht im SAPD!");
+	MoveDynamicObject(pdtuer,1047.95386, 1251.51318, 797.77301,5);
+	SendClientMessage(playerid,türkis,"Sie haben die Tür geschlossen!");
+	return 1;
+}
+ocmd:pdtuerauf(playerid,params[])
+{
+	if(!isPlayerInFrakt(playerid,1))return SendClientMessage(playerid,rot,"Du bist nicht im SAPD!");
+	MoveDynamicObject(pdtuer,1046.4379, 1251.5132, 797.7730,5);
+	SendClientMessage(playerid,türkis,"Sie haben die Tür geöffnet!");
+	return 1;
+}
 ocmd:pfandsuchen(playerid,params[])
 {
 	for(new i=0; i<sizeof(muell); i++)
