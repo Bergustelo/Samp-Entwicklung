@@ -161,6 +161,7 @@ enum autohauscarEnum{
 	ah_id,
 	id_x
 }
+
 new ahCars[][autohauscarEnum] ={
 {411,2516.8420,1698.8502,10.7281,89.2039,60000000,0},
 {560,2516.0205,1694.6085,10.7244,89.9459,50000000,0},
@@ -172,7 +173,7 @@ new ahCars[][autohauscarEnum] ={
 new ahInfo[][autohausEnum]={
 {2481.2991,1671.2750,16.3001,95.0682}
 };
-new pdtuer;
+new pdtuer1,pdtuer2,pdtuer3,pdtuer4,pdtuer5,pdtuer6,pdtuer7,pdtuer8,pdtuer9;
 
 
 main()
@@ -195,6 +196,12 @@ public OnGameModeInit()
 	EnableStuntBonusForAll(0);
 	ManualVehicleEngineAndLights();
 
+
+	//autohausladen:
+	for(new i=0; i<sizeof(ahCars); i++)
+	{
+		ahCars[i][id_x]=AddStaticVehicle(ahCars[i][model],ahCars[i][ah_x],ahCars[i][ah_y],ahCars[i][ah_z],ahCars[i][ah_r],-1,-1);
+	}
 	//Gebäude laden
 	for(new i=0; i<sizeof(bInfo); i++)
 	{
@@ -213,8 +220,6 @@ public OnGameModeInit()
 		CreateDynamicObject(1344,muell[i][m_x],muell[i][m_y],muell[i][m_z],muell[i][m_rx],muell[i][m_ry],muell[i][m_rz]);
 	}
 	SetTimer("Pfanddazu",3000,false);
-	
-	
 	//objekte:
 	//ARBEITSAMT
 	CreateObject(19360, 227.73849, 126.68120, 1004.48309,   0.00000, 0.00000, 0.00000);
@@ -1218,15 +1223,468 @@ public OnGameModeInit()
     CreateDynamicObject(19459, 1038.52039, 1262.93921, 796.04602,   0.00000, 0.00000, 0.00000);
     CreateDynamicObject(19459, 1038.52039, 1282.07471, 796.04602,   0.00000, 0.00000, 0.00000);
     CreateDynamicObject(1535, 1029.06189, 1240.14001, 797.77368,   0.00000, 0.00000, 90.00000);
-    CreateDynamicObject(1569, 1050.00244, 1236.30676, 797.77301,   0.00000, 0.00000, 90.00000);//door
-    CreateDynamicObject(1569, 1046.16833, 1229.59045, 799.34991,   0.00000, 0.00000, 180.00000);//door
-    CreateDynamicObject(1569, 1050.02161, 1245.85291, 797.77301,   0.00000, 0.00000, 90.00000);//door
-    pdtuer = CreateDynamicObject(1569, 1047.95386, 1251.51318, 797.77301,   0.00000, 0.00000, 0.00000);//door
-    CreateDynamicObject(1569, 1030.62195, 1251.51318, 797.77301,   0.00000, 0.00000, 0.00000);//door
-    CreateDynamicObject(1569, 1037.58594, 1229.89832, 799.34991,   0.00000, 0.00000, 0.00000);//door
-    CreateDynamicObject(1495, 1036.37781, 1219.99023, 791.83832,   0.00000, 0.00000, 90.00000);//door
-    CreateDynamicObject(1495, 1039.95654, 1233.85657, 785.68457,   0.00000, 0.00000, 90.00000);//door
-    CreateDynamicObject(1495, 1036.73132, 1236.22620, 785.68457,   0.00000, 0.00000, 0.00000);//door
+    pdtuer1 = CreateDynamicObject(1569, 1050.00244, 1236.30676, 797.77301,   0.00000, 0.00000, 90.00000);//door
+    pdtuer2 = CreateDynamicObject(1569, 1046.16833, 1229.59045, 799.34991,   0.00000, 0.00000, 180.00000);//door
+    pdtuer3 = CreateDynamicObject(1569, 1050.02161, 1245.85291, 797.77301,   0.00000, 0.00000, 90.00000);//door
+    pdtuer4 = CreateDynamicObject(1569, 1047.95386, 1251.51318, 797.77301,   0.00000, 0.00000, 0.00000);//door
+    pdtuer5 = CreateDynamicObject(1569, 1030.62195, 1251.51318, 797.77301,   0.00000, 0.00000, 0.00000);//door
+    pdtuer6 = CreateDynamicObject(1569, 1037.58594, 1229.89832, 799.34991,   0.00000, 0.00000, 0.00000);//door
+    pdtuer7 = CreateDynamicObject(1495, 1036.37781, 1219.99023, 791.83832,   0.00000, 0.00000, 90.00000);//door
+    pdtuer8 = CreateDynamicObject(1495, 1039.95654, 1233.85657, 785.68457,   0.00000, 0.00000, 90.00000);//door
+    pdtuer9 = CreateDynamicObject(1495, 1036.73132, 1236.22620, 785.68457,   0.00000, 0.00000, 0.00000);//door
+    
+    //taxibase:
+    /*
+    	pdint = CreateDynamicObject(19386, 1038.34949, 1229.89832, 801.11938,   0.00000, 0.00000, 90.00000);
+    	SetDynamicObjectMaterial(pdint,0, 8460, "vgseland03_lvs", "ceaserwall06_128", 0);
+    */
+    new taxiint;
+    CreateDynamicObject(18981, 1072.87830, -1373.01184, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18981, 1072.89819, -1348.01379, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18981, 1072.89819, -1323.01453, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1072.89819, -1310.01550, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1072.89819, -1304.02515, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1072.89819, -1309.01733, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1072.89819, -1303.02515, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1072.89819, -1307.02063, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1072.89819, -1296.03564, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1072.89819, -1305.02405, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1072.89819, -1308.01904, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1072.89819, -1302.02527, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1072.89819, -1306.02222, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1072.89819, -1301.02551, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1072.89819, -1292.04248, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1072.89819, -1300.02649, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1072.89819, -1295.03650, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1072.89819, -1299.02905, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1072.89819, -1298.03186, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1072.89819, -1294.03882, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1072.89819, -1293.04004, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1072.89819, -1297.03455, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1173.89368, -1291.04346, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18981, 1085.89783, -1291.04346, 0.78320,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(18981, 1110.89685, -1291.04346, 0.78320,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(18981, 1135.89624, -1291.04346, 0.78320,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(18981, 1160.89490, -1291.04346, 0.78320,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(18980, 1072.89819, -1291.04346, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1179.88464, -1291.04346, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1174.89209, -1291.04346, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1184.87744, -1291.04346, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1177.88672, -1291.04346, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1175.89075, -1291.04346, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1183.87769, -1291.04346, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1176.88867, -1291.04346, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1182.87903, -1291.04346, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1178.88696, -1291.04346, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1181.88000, -1291.04346, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1180.88245, -1291.04346, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1185.87708, -1291.04346, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1185.87708, -1292.04248, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1185.87708, -1293.04004, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1185.87708, -1294.03882, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1185.87708, -1295.03650, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1185.87708, -1296.03564, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1185.87708, -1297.03455, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1185.87708, -1298.03186, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1185.87708, -1299.02905, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1185.87708, -1300.02649, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1185.87708, -1301.02551, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1185.87708, -1302.02527, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1185.87708, -1303.02515, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1185.87708, -1304.02515, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1185.87708, -1305.02405, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1185.87708, -1306.02222, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1185.87708, -1307.02063, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1185.87708, -1308.01904, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1185.87708, -1309.01733, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1185.87708, -1310.01550, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18981, 1185.87708, -1323.01453, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18981, 1185.87708, -1348.01379, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18981, 1185.87708, -1373.01355, 0.78320,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18981, 1085.89783, -1385.01196, 0.78320,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(18981, 1110.89685, -1385.01196, 0.78320,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(18981, 1135.89624, -1385.01196, 1.65530,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(18981, 1160.91394, -1385.00598, 0.78320,   0.00000, 0.00000, 90.00000);
+	taxiint=CreateObject(19377, 1180.13745, -1379.70532, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(CreateObject(19377, 1180.13745, -1379.70532, 12.56630,   0.00000, 90.00000, 0.00000), 0, 10789, "xenon_sfse", "crackedgroundb", 0xFFFFFFFF);
+	
+	
+	 
+    /*
+    	pdint = CreateDynamicObject(19386, 1038.34949, 1229.89832, 801.11938,   0.00000, 0.00000, 90.00000);
+    	SetDynamicObjectMaterial(pdint,0, 8460, "vgseland03_lvs", "ceaserwall06_128", 0);
+    */
+	
+	
+	CreateDynamicObject(18980, 1184.87744, -1385.01196, 0.16120,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1183.87769, -1385.01196, 0.16120,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1182.87903, -1385.01196, 0.16120,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1181.88000, -1385.01196, 0.16120,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1180.88245, -1385.01196, 0.16120,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1179.88464, -1385.01196, 0.16120,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1178.88696, -1385.01196, 0.16120,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1177.88672, -1385.01196, 0.16120,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1176.88867, -1385.01196, 0.16120,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1175.89075, -1385.01196, 0.16120,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1174.89209, -1385.01196, 0.16120,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1173.89368, -1385.01196, 0.16120,   0.00000, 0.00000, 0.00000);
+	CreateObject(19377, 1169.63660, -1379.70532, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(CreateObject(19377, 1169.63660, -1379.70532, 12.56630,   0.00000, 90.00000, 0.00000), 0, 10789, "xenon_sfse", "crackedgroundb", 0xFFFFFFFF);
+	
+	 
+    /*
+    	pdint = CreateDynamicObject(19386, 1038.34949, 1229.89832, 801.11938,   0.00000, 0.00000, 90.00000);
+    	SetDynamicObjectMaterial(pdint,0, 8460, "vgseland03_lvs", "ceaserwall06_128", 0);
+    */
+	
+	CreateObject(19377, 1159.13745, -1379.70532, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(CreateObject(19377, 1159.13745, -1379.70532, 12.56630,   0.00000, 90.00000, 0.00000), 0, 10789, "xenon_sfse", "crackedgroundb", 0xFFFFFFFF);
+	CreateObject(19377, 1106.63696, -1379.70532, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(CreateObject(19377, 1106.63696, -1379.70532, 12.56630,   0.00000, 90.00000, 0.00000), 0, 10789, "xenon_sfse", "crackedgroundb", 0xFFFFFFFF);
+	CreateObject(19377, 1148.63745, -1379.69824, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(CreateObject(19377, 1148.63745, -1379.69824, 12.56630,   0.00000, 90.00000, 0.00000), 0, 10789, "xenon_sfse", "crackedgroundb", 0xFFFFFFFF);
+	CreateObject(19377, 1127.63757, -1379.70532, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(CreateObject(19377, 1127.63757, -1379.70532, 12.56630,   0.00000, 90.00000, 0.00000), 0, 10789, "xenon_sfse", "crackedgroundb", 0xFFFFFFFF);
+	CreateObject(19377, 1138.13684, -1379.69824, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(CreateObject(19377, 1138.13684, -1379.69824, 12.56630,   0.00000, 90.00000, 0.00000), 0, 10789, "xenon_sfse", "crackedgroundb", 0xFFFFFFFF);
+	CreateObject(19377, 1117.13843, -1379.70532, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(CreateObject(19377, 1117.13843, -1379.70532, 12.56630,   0.00000, 90.00000, 0.00000), 0, 10789, "xenon_sfse", "crackedgroundb", 0xFFFFFFFF);
+	CreateObject(19377, 1096.13538, -1379.70532, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(CreateObject(19377, 1096.13538, -1379.70532, 12.56630,   0.00000, 90.00000, 0.00000), 0, 10789, "xenon_sfse", "crackedgroundb", 0xFFFFFFFF);
+	CreateObject(19377, 1085.63525, -1379.70532, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(CreateObject(19377, 1085.63525, -1379.70532, 12.56630,   0.00000, 90.00000, 0.00000), 0, 10789, "xenon_sfse", "crackedgroundb", 0xFFFFFFFF);
+	CreateObject(19377, 1085.63525, -1370.07214, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(CreateObject(19377, 1085.63525, -1370.07214, 12.56630,   0.00000, 90.00000, 0.00000), 0, 10789, "xenon_sfse", "crackedgroundb", 0xFFFFFFFF);
+	CreateObject(19377, 1096.13550, -1370.07214, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateObject(19377, 1106.63696, -1370.07214, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	CreateObject(19377, 1117.13843, -1370.07214, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	CreateObject(19377, 1127.63757, -1370.07214, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateObject(19377, 1138.13684, -1370.07214, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateObject(19377, 1148.63745, -1370.06506, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateObject(19377, 1159.13855, -1370.07214, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateObject(19377, 1169.63660, -1370.07214, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateObject(19377, 1180.13745, -1370.07214, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateObject(19377, 1085.63525, -1360.43872, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateObject(19377, 1085.65442, -1302.64197, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateObject(19377, 1085.63525, -1350.80518, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateObject(19377, 1085.63525, -1341.17126, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateObject(19377, 1085.63525, -1331.53784, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateObject(19377, 1085.63525, -1321.90332, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateObject(19377, 1085.63525, -1312.27014, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateObject(19377, 1096.13550, -1360.43872, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateObject(19377, 1096.13550, -1350.80518, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateObject(19377, 1096.13550, -1341.17126, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateObject(19377, 1096.13550, -1331.53784, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateObject(19377, 1096.13550, -1321.90332, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateObject(19377, 1096.13550, -1312.27014, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateObject(19377, 1096.13550, -1302.63623, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateObject(19377, 1106.63696, -1360.43872, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateObject(19377, 1106.63696, -1350.80518, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateObject(19377, 1106.63696, -1341.17126, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateObject(19377, 1106.63696, -1331.53906, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	new obtext = CreateObject(2714, 1175.56165, -1360.59570, 14.86920,   0.00000, 0.00000, 90.00000);
+	SetObjectMaterialText(obtext,"Mitarbeiter &\nKundenparkplatz",0,OBJECT_MATERIAL_SIZE_256x128,"Arial",28,0,0xFFFFFFFF,0x000000FF,OBJECT_MATERIAL_TEXT_ALIGN_CENTER);
+	taxiint = CreateDynamicObject(19452, 1075.13696, -1360.43726, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1075.13696, -1350.80334, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1075.13696, -1341.16956, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+    taxiint = CreateDynamicObject(19452, 1075.13696, -1331.53564, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1075.13696, -1321.90271, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1075.13696, -1312.26929, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1075.13696, -1302.63623, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1078.63489, -1360.43726, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1078.63489, -1350.80334, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1078.63489, -1341.16956, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1078.63489, -1331.53564, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1078.63489, -1321.90271, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1078.63489, -1312.26929, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1078.63489, -1302.63623, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1078.17090, -1296.06982, 12.56630,   0.00000, 90.00000, 90.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1078.17090, -1292.57104, 12.56630,   0.00000, 90.00000, 90.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1087.80432, -1296.06982, 12.56630,   0.00000, 90.00000, 90.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1097.43835, -1296.06982, 12.56630,   0.00000, 90.00000, 90.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1087.80432, -1292.57104, 12.56630,   0.00000, 90.00000, 90.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1097.43835, -1292.57104, 12.56630,   0.00000, 90.00000, 90.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	CreateDynamicObject(19377, 1117.13843, -1350.80713, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1117.13843, -1341.17334, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1117.13843, -1331.53906, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1127.63757, -1360.44287, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1127.63757, -1350.80713, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1127.63757, -1341.17334, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1127.63757, -1331.53906, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1117.13843, -1360.44287, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1138.13684, -1360.44287, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1138.13684, -1350.80713, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1138.13684, -1341.17334, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1138.13684, -1331.53906, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1148.63745, -1360.44287, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1148.63745, -1350.80713, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1148.63745, -1341.17334, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1148.63745, -1331.53906, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1159.13855, -1360.44287, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1159.13855, -1350.80713, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1159.13855, -1341.17334, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1159.13855, -1331.53906, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1169.63660, -1360.44287, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1169.63660, -1350.80713, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1169.63660, -1341.17334, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1169.63660, -1331.53906, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1180.13745, -1360.44287, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1180.13745, -1350.80713, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1180.13745, -1341.17334, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1180.13745, -1331.53906, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19364, 1175.38721, -1382.90796, 14.38960,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19364, 1175.38721, -1379.69739, 14.38960,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19364, 1175.38721, -1376.48621, 14.38960,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19364, 1175.38721, -1373.27734, 14.38960,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19364, 1175.38721, -1370.06665, 14.38960,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19364, 1173.69446, -1384.42566, 14.38960,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(19410, 1155.94507, -1379.69739, 14.38960,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19364, 1155.94507, -1382.90796, 14.38960,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19393, 1155.94507, -1376.48621, 14.38960,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19410, 1155.94507, -1373.27734, 14.38960,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19364, 1155.94507, -1370.06665, 14.38960,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19466, 1155.94238, -1373.21411, 14.64710,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19466, 1155.94238, -1379.70142, 14.64710,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19410, 1157.64026, -1368.55042, 14.38960,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(19364, 1160.85034, -1368.55042, 14.38960,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(19364, 1167.27258, -1368.55042, 14.38960,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(19410, 1170.48413, -1368.55042, 14.38960,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(19364, 1164.06213, -1368.55042, 14.38960,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(19364, 1173.69446, -1368.55042, 14.38960,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(19466, 1170.37341, -1368.56128, 14.64710,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(19466, 1157.66467, -1368.56128, 14.64710,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(1491, 1155.94556, -1377.23145, 12.64110,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(19425, 1177.12268, -1378.87524, 12.65540,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19425, 1180.42700, -1378.87524, 12.65540,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19425, 1183.72864, -1378.87524, 12.65540,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19410, 1170.48413, -1384.42566, 14.38960,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(19364, 1167.27258, -1384.42566, 14.38960,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(19364, 1164.06213, -1384.42566, 14.38960,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(19364, 1160.85034, -1384.42566, 14.38960,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(19410, 1157.64026, -1384.42566, 14.38960,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(19466, 1170.39465, -1384.40088, 14.64710,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(19466, 1157.66858, -1384.40088, 14.64710,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(19360, 1173.54822, -1382.73206, 16.22800,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19360, 1156.05591, -1382.73206, 16.22800,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19360, 1170.04919, -1382.73206, 16.22800,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19360, 1166.55066, -1382.73206, 16.22800,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19360, 1163.05151, -1382.73206, 16.22800,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19360, 1159.55444, -1382.73206, 16.22800,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19360, 1156.05591, -1379.52185, 16.22800,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19360, 1159.55444, -1379.52185, 16.22800,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19360, 1163.05151, -1379.52185, 16.22800,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19360, 1166.55066, -1379.52185, 16.22800,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19360, 1170.04919, -1379.52185, 16.22800,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19360, 1173.54822, -1379.52185, 16.22800,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19360, 1156.05591, -1376.31152, 16.22800,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19360, 1156.05591, -1373.10095, 16.22800,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19360, 1156.05591, -1369.89014, 16.22800,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19360, 1159.55444, -1376.31152, 16.22800,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19360, 1163.05151, -1376.31152, 16.22800,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19360, 1166.55066, -1376.31152, 16.22800,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19360, 1170.04919, -1376.31152, 16.22800,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19360, 1173.54822, -1376.31152, 16.22800,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19360, 1159.55444, -1373.10095, 16.22800,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19360, 1163.05151, -1373.10095, 16.22800,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19360, 1166.55066, -1373.10095, 16.22800,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19360, 1170.04919, -1373.10095, 16.22800,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19360, 1173.54822, -1373.10095, 16.22800,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19360, 1159.55444, -1369.89014, 16.22800,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19360, 1163.05151, -1369.89014, 16.22800,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19360, 1166.55066, -1369.89014, 16.22800,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19360, 1170.04919, -1369.89014, 16.22800,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19360, 1173.54822, -1369.89014, 16.22800,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19360, 1154.28406, -1376.55530, 12.57720,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19122, 1149.21912, -1378.04895, 13.16640,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19122, 1149.21912, -1375.09363, 13.16640,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(970, 1153.78198, -1374.95313, 13.10710,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19360, 1150.78467, -1376.55530, 12.57720,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(970, 1153.78198, -1378.16174, 13.10710,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19122, 1151.61584, -1375.08765, 13.16640,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19122, 1149.21912, -1375.08765, 13.16640,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19122, 1151.61584, -1378.05298, 13.16640,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(3525, 1155.60486, -1377.87793, 13.99140,   16.43960, 0.00000, -90.00000);
+	CreateDynamicObject(3525, 1155.60486, -1375.47241, 13.99140,   16.43960, 0.00000, -89.22000);
+	CreateDynamicObject(18980, 1175.42468, -1361.51111, 1.65530,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19980, 1175.51672, -1360.59338, 12.22320,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(968, 1175.44006, -1361.39355, 13.68470,   0.00000, 90.00000, -90.00000);
+	CreateDynamicObject(18980, 1175.42468, -1360.51074, 1.65530,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18981, 1162.42664, -1361.51111, 1.65530,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(18980, 1150.42676, -1360.51221, 1.65530,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1150.42676, -1359.51355, 1.65530,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1150.42676, -1358.51514, 1.65530,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1150.42676, -1357.51563, 1.65530,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1150.42676, -1356.51697, 1.65530,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1150.42676, -1354.51843, 1.65530,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1150.42676, -1355.51855, 1.65530,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1150.42676, -1353.52002, 1.65530,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18981, 1137.42932, -1353.52002, 1.65530,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(18981, 1124.43298, -1365.51941, 1.65530,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1124.43298, -1378.51697, 1.65530,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1124.43298, -1379.51526, 1.65530,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1124.43298, -1380.51208, 1.65530,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1124.43298, -1381.50757, 1.65530,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1124.43298, -1383.50696, 1.65530,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1124.43298, -1382.50696, 1.65530,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(18980, 1124.43298, -1384.50647, 1.65530,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19360, 1145.37964, -1355.62122, 10.90700,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19360, 1139.49182, -1355.62122, 10.90700,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19360, 1133.84253, -1355.62122, 10.90700,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19360, 1127.63159, -1355.62122, 10.90700,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19360, 1127.63159, -1358.83252, 10.90700,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19360, 1133.84253, -1358.83252, 10.90700,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19360, 1139.49182, -1358.83252, 10.90700,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19360, 1145.37964, -1358.83252, 10.90700,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19360, 1126.53467, -1369.09229, 10.90700,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(19360, 1126.53467, -1374.04675, 10.90700,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(19360, 1126.53467, -1380.04858, 10.90700,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(19360, 1129.74438, -1369.09229, 10.90700,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(19360, 1129.74438, -1374.04675, 10.90700,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(19360, 1129.74438, -1380.04858, 10.90700,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(19360, 1139.07373, -1382.93396, 10.90700,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19360, 1144.31628, -1382.93396, 10.90700,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(2008, 1164.72620, -1383.88965, 12.65470,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(2008, 1164.72620, -1381.90417, 12.65470,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(2008, 1164.72620, -1379.91711, 12.65470,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(2008, 1164.72620, -1377.93091, 12.65470,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(2008, 1164.72620, -1375.94434, 12.65470,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(19360, 1164.99487, -1374.48901, 14.38960,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(19360, 1164.99487, -1376.52930, 14.38960,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(19360, 1164.99487, -1378.46606, 14.38960,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(19360, 1164.99487, -1382.47888, 14.38960,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(19360, 1164.99487, -1380.46521, 14.38960,   0.00000, 0.00000, 90.00000);
+	CreateDynamicObject(19393, 1163.47913, -1373.28369, 14.38960,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19433, 1163.48303, -1375.62134, 15.34900,   90.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19433, 1163.48303, -1379.11914, 15.34900,   90.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19433, 1163.48303, -1382.61890, 15.34900,   90.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19364, 1163.47913, -1370.06885, 14.38960,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(1495, 1163.49182, -1374.01440, 12.63940,   0.00000, 0.00000, 90.00000);
+	taxiint = CreateDynamicObject(19452, 1078.63489, -1370.07129, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1075.13696, -1370.07129, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1078.63489, -1379.70435, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1075.13696, -1379.70435, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	CreateDynamicObject(19377, 1106.63696, -1321.90332, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1117.13843, -1321.90332, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1127.63757, -1321.90332, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1138.13684, -1321.90332, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1148.63745, -1321.90332, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1159.13855, -1321.90332, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1169.63660, -1321.90332, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1180.13745, -1321.90332, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1106.63696, -1312.27014, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1117.13843, -1312.27014, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1127.63757, -1312.27014, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1138.13684, -1312.27014, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1148.63745, -1312.27014, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1159.13855, -1312.27014, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1169.63660, -1312.27014, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1180.13745, -1312.27014, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1106.63696, -1302.63623, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1117.13843, -1302.63623, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1127.63757, -1302.63623, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1138.13684, -1302.63623, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1148.63745, -1302.63623, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1159.13855, -1302.63623, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1169.63660, -1302.63623, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19377, 1180.13745, -1302.63623, 12.56630,   0.00000, 90.00000, 0.00000);
+	taxiint = CreateDynamicObject(19452, 1107.06995, -1296.06982, 12.56630,   0.00000, 90.00000, 90.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1116.70435, -1296.06982, 12.56630,   0.00000, 90.00000, 90.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1126.33789, -1296.06982, 12.56630,   0.00000, 90.00000, 90.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1135.97253, -1296.06982, 12.56630,   0.00000, 90.00000, 90.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1145.60547, -1296.06982, 12.56630,   0.00000, 90.00000, 90.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1155.23645, -1296.06982, 12.56630,   0.00000, 90.00000, 90.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1164.87390, -1296.06982, 12.56630,   0.00000, 90.00000, 90.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1174.50732, -1296.06982, 12.56630,   0.00000, 90.00000, 90.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1107.06995, -1292.57104, 12.56630,   0.00000, 90.00000, 90.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1116.70435, -1292.57104, 12.56630,   0.00000, 90.00000, 90.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1126.33789, -1292.57104, 12.56630,   0.00000, 90.00000, 90.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1135.97253, -1292.57104, 12.56630,   0.00000, 90.00000, 90.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1145.60547, -1292.57104, 12.56630,   0.00000, 90.00000, 90.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1155.23645, -1292.57104, 12.56630,   0.00000, 90.00000, 90.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1164.87390, -1292.57104, 12.56630,   0.00000, 90.00000, 90.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19452, 1174.50732, -1292.57104, 12.56630,   0.00000, 90.00000, 90.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19360, 1181.07373, -1296.21375, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19360, 1184.57214, -1296.21375, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	taxiint = CreateDynamicObject(19360, 1181.07373, -1293.00146, 12.56630,   0.00000, 90.00000, 0.00000);
+	SetObjectMaterial(taxiint, 0, 8390, "vegasemulticar", "gnhotelwall02_128", 0xFFFFFFFF);
+	CreateDynamicObject(19360, 1184.57214, -1293.00146, 12.56630,   0.00000, 90.00000, 0.00000);
+	CreateDynamicObject(19425, 1177.12268, -1378.34009, 12.65540,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19425, 1177.12268, -1377.80432, 12.65540,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19425, 1180.42700, -1378.34009, 12.65540,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19425, 1183.72864, -1378.34009, 12.65540,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19425, 1180.42700, -1377.80432, 12.65540,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19425, 1183.72864, -1377.80432, 12.65540,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19425, 1177.12268, -1379.40967, 12.65540,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19425, 1180.42700, -1379.40967, 12.65540,   0.00000, 0.00000, 0.00000);
+	CreateDynamicObject(19425, 1183.72864, -1379.40967, 12.65540,   0.00000, 0.00000, 0.00000);
 	return 1;
 }
 
@@ -1494,17 +1952,129 @@ isPlayerInFrakt(playerid,f_id){
 	return 0;
 }
 // Befehle
-ocmd:ptuerzu(playerid,params[])
+ocmd:ptuerzu1(playerid,params[])
 {
 	if(!isPlayerInFrakt(playerid,1))return SendClientMessage(playerid,rot,"Du bist nicht im SAPD!");
-	MoveDynamicObject(pdtuer,1047.95386, 1251.51318, 797.77301,5);
+	MoveDynamicObject(pdtuer1,1050.00244, 1236.30676, 797.77301,5);
 	SendClientMessage(playerid,türkis,"Sie haben die Tür geschlossen!");
 	return 1;
 }
-ocmd:pdtuerauf(playerid,params[])
+ocmd:pdtuerauf1(playerid,params[])
 {
 	if(!isPlayerInFrakt(playerid,1))return SendClientMessage(playerid,rot,"Du bist nicht im SAPD!");
-	MoveDynamicObject(pdtuer,1046.4379, 1251.5132, 797.7730,5);
+	MoveDynamicObject(pdtuer1,1050.00244, 1236.30676, 795.11652,5);
+	SendClientMessage(playerid,türkis,"Sie haben die Tür geöffnet!");
+	return 1;
+}
+ocmd:ptuerzu2(playerid,params[])
+{
+	if(!isPlayerInFrakt(playerid,1))return SendClientMessage(playerid,rot,"Du bist nicht im SAPD!");
+	MoveDynamicObject(pdtuer2,1046.16833, 1229.59045, 799.34991,5);
+	SendClientMessage(playerid,türkis,"Sie haben die Tür geschlossen!");
+	return 1;
+}
+ocmd:pdtuerauf2(playerid,params[])
+{
+	if(!isPlayerInFrakt(playerid,1))return SendClientMessage(playerid,rot,"Du bist nicht im SAPD!");
+	MoveDynamicObject(pdtuer2,1046.16833, 1229.59045, 795.60071,5);
+	SendClientMessage(playerid,türkis,"Sie haben die Tür geöffnet!");
+	return 1;
+}
+ocmd:ptuerzu3(playerid,params[])
+{
+	if(!isPlayerInFrakt(playerid,1))return SendClientMessage(playerid,rot,"Du bist nicht im SAPD!");
+	MoveDynamicObject(pdtuer3,1050.02161, 1245.85291, 797.77301,5);
+	SendClientMessage(playerid,türkis,"Sie haben die Tür geschlossen!");
+	return 1;
+}
+ocmd:pdtuerauf3(playerid,params[])
+{
+	if(!isPlayerInFrakt(playerid,1))return SendClientMessage(playerid,rot,"Du bist nicht im SAPD!");
+	MoveDynamicObject(pdtuer3,1050.02161, 1245.85291, 792.88458,5);
+	SendClientMessage(playerid,türkis,"Sie haben die Tür geöffnet!");
+	return 1;
+}
+ocmd:ptuerzu4(playerid,params[])
+{
+	if(!isPlayerInFrakt(playerid,1))return SendClientMessage(playerid,rot,"Du bist nicht im SAPD!");
+	MoveDynamicObject(pdtuer4,1047.95386, 1251.51318, 797.77301,5);
+	SendClientMessage(playerid,türkis,"Sie haben die Tür geschlossen!");
+	return 1;
+}
+ocmd:pdtuerauf4(playerid,params[])
+{
+	if(!isPlayerInFrakt(playerid,1))return SendClientMessage(playerid,rot,"Du bist nicht im SAPD!");
+	MoveDynamicObject(pdtuer4,1046.4379, 1251.5132, 797.7730,5);
+	SendClientMessage(playerid,türkis,"Sie haben die Tür geöffnet!");
+	return 1;
+}
+ocmd:ptuerzu5(playerid,params[])
+{
+	if(!isPlayerInFrakt(playerid,1))return SendClientMessage(playerid,rot,"Du bist nicht im SAPD!");
+	MoveDynamicObject(pdtuer5,1030.62195, 1251.51318, 797.77301, 797.77301,5);
+	SendClientMessage(playerid,türkis,"Sie haben die Tür geschlossen!");
+	return 1;
+}
+ocmd:pdtuerauf5(playerid,params[])
+{
+	if(!isPlayerInFrakt(playerid,1))return SendClientMessage(playerid,rot,"Du bist nicht im SAPD!");
+	MoveDynamicObject(pdtuer5,1030.62195, 1251.51318, 792.88458,5);
+	SendClientMessage(playerid,türkis,"Sie haben die Tür geöffnet!");
+	return 1;
+}
+ocmd:ptuerzu6(playerid,params[])
+{
+	if(!isPlayerInFrakt(playerid,1))return SendClientMessage(playerid,rot,"Du bist nicht im SAPD!");
+	MoveDynamicObject(pdtuer6,1037.58594, 1229.89832, 799.34991,5);
+	SendClientMessage(playerid,türkis,"Sie haben die Tür geschlossen!");
+	return 1;
+}
+ocmd:pdtuerauf6(playerid,params[])
+{
+	if(!isPlayerInFrakt(playerid,1))return SendClientMessage(playerid,rot,"Du bist nicht im SAPD!");
+	MoveDynamicObject(pdtuer6,1037.58594, 1229.89832, 795.18408,5);
+	SendClientMessage(playerid,türkis,"Sie haben die Tür geöffnet!");
+	return 1;
+}
+ocmd:ptuerzu7(playerid,params[])
+{
+	if(!isPlayerInFrakt(playerid,1))return SendClientMessage(playerid,rot,"Du bist nicht im SAPD!");
+	MoveDynamicObject(pdtuer7,1036.37781, 1219.99023, 791.83832,5);
+	SendClientMessage(playerid,türkis,"Sie haben die Tür geschlossen!");
+	return 1;
+}
+ocmd:pdtuerauf7(playerid,params[])
+{
+	if(!isPlayerInFrakt(playerid,1))return SendClientMessage(playerid,rot,"Du bist nicht im SAPD!");
+	MoveDynamicObject(pdtuer7,1036.37781, 1219.99023, 788.38922,5);
+	SendClientMessage(playerid,türkis,"Sie haben die Tür geöffnet!");
+	return 1;
+}
+ocmd:ptuerzu8(playerid,params[])
+{
+	if(!isPlayerInFrakt(playerid,1))return SendClientMessage(playerid,rot,"Du bist nicht im SAPD!");
+	MoveDynamicObject(pdtuer8,1039.95654, 1233.85657, 785.68457,5);
+	SendClientMessage(playerid,türkis,"Sie haben die Tür geschlossen!");
+	return 1;
+}
+ocmd:pdtuerauf8(playerid,params[])
+{
+	if(!isPlayerInFrakt(playerid,1))return SendClientMessage(playerid,rot,"Du bist nicht im SAPD!");
+	MoveDynamicObject(pdtuer8, 1039.95654, 1233.85657, 782.40894,5);
+	SendClientMessage(playerid,türkis,"Sie haben die Tür geöffnet!");
+	return 1;
+}
+ocmd:ptuerzu9(playerid,params[])
+{
+	if(!isPlayerInFrakt(playerid,1))return SendClientMessage(playerid,rot,"Du bist nicht im SAPD!");
+	MoveDynamicObject(pdtuer9,1036.73132, 1236.22620, 785.68457,5);
+	SendClientMessage(playerid,türkis,"Sie haben die Tür geschlossen!");
+	return 1;
+}
+ocmd:pdtuerauf9(playerid,params[])
+{
+	if(!isPlayerInFrakt(playerid,1))return SendClientMessage(playerid,rot,"Du bist nicht im SAPD!");
+	MoveDynamicObject(pdtuer9,1036.73132, 1236.22620, 781.23401,5);
 	SendClientMessage(playerid,türkis,"Sie haben die Tür geöffnet!");
 	return 1;
 }
@@ -1553,10 +2123,10 @@ ocmd:hilfe(playerid,params[])
 }
 ocmd:fahrzeughilfe(playerid,params[])
 {
-	 SendClientMessage(playerid,grün,"/motorsystem");
+	 SendClientMessage(playerid,grün,"/acpu");
 	 return 1;
 }
-   ocmd:motorsystem(playerid,params)
+   ocmd:acpu(playerid,params)
 {
 	if(GetPlayerState(playerid)!=PLAYER_STATE_DRIVER) return SendClientMessage(playerid, rot, "Das kann nur der Fahrer!");
 	ShowPlayerDialog(playerid,DIALOG_MOTORSYSTEM,DIALOG_STYLE_TABLIST,     "Autobordcomputer","Motor\tstarten\tauschalten\nlicht\tanschalten\tausschalten\ntüren\töffnen\tschliessen\nAutoparken\tparken","benutzen","abbrechen");
@@ -1683,7 +2253,6 @@ ocmd:annehmen(playerid, params[])
 	format(string,sizeof(string),"%s hat dich zum Leader der Fraktion %s gemacht",fInfo[fID][f_name]);
 	SendClientMessage(pID,gelb,string);
 	SendClientMessage(playerid,grün,"Du hast einen Spieler zum Leader gemacht.");
-
 	return 1;
 }
 ocmd:spielerkicken(playerid,params[])
